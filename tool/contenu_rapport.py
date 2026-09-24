@@ -45,7 +45,7 @@ def objectifs(document, ligne, titre, puces, capture):
     ligne(document, espace_apres=10)
     capture(
         document,
-        "refonte-10-accueil.png",
+        "v2-09-accueil.png",
         "Écran d'accueil de l'application Mekano Afrika",
         largeur=Cm(7.6),
     )
@@ -303,16 +303,19 @@ def corps(document, ligne, titre, puces, tableau, capture):
         "à une mosaïque de figures distinctes.",
         espace_apres=10)
 
-    capture(document, "refonte-11-accueil-produits.png",
+    capture(document, "v2-10-accueil-produits.png",
             "Grille d'annonces : chaque vignette porte sa propre figure",
             largeur=Cm(7.4))
 
     # ------------------------------------------------------------------
     titre(document, "5. Les écrans réalisés")
 
-    capture(document, "refonte-02-onboarding.png",
+    capture(document, "v2-02-onboarding.png",
             "Présentation, sur fond noir", largeur=Cm(6.6))
-    capture(document, "refonte-13-details-produit.png",
+    capture(document, "v2-08-choisir-zone.png",
+            "Choix manuel de la commune, recours lorsque la géolocalisation "
+            "est refusée", largeur=Cm(6.6))
+    capture(document, "v2-11-details-produit.png",
             "Fiche produit : prix, tarif de gros et barre d'action",
             largeur=Cm(6.6))
     capture(document, "refonte-16-compte.png",
@@ -403,6 +406,11 @@ def corps(document, ligne, titre, puces, tableau, capture):
         "des ressources a relevé plusieurs images dans ce cas, qu'aucune "
         "relecture du code n'aurait signalées.",
         espace_apres=8)
+
+    capture(document, "v2-14-panier-gros.png",
+            "La règle vérifiée par les tests, telle qu'elle se voit à "
+            "l'écran : au dixième article, la ligne passe à 38 000 FCFA et "
+            "la livraison devient gratuite", largeur=Cm(7.4))
 
     ligne(document,
         "Le second tient aux dépôts. Un contrôleur ne va jamais chercher sa "
@@ -628,9 +636,11 @@ def corps(document, ligne, titre, puces, tableau, capture):
 
     ligne(document,
         "La démonstration suit le parcours d'un acheteur, de l'ouverture de "
-        "l'application au panier, sur un appareil réel plutôt que sur un "
-        "émulateur : un téléphone Android sous la version 15, en 1080 × 2412. "
-        "Les captures de ce rapport en sont tirées.",
+        "l'application au panier. Elle se fait sur téléphone, en portrait : "
+        "c'est l'usage pour lequel l'interface a été dessinée, et "
+        "l'orientation y est verrouillée au démarrage. Les captures de ce "
+        "rapport sont prises sur un appareil Android 16 en 1080 × 2400, "
+        "l'application y étant installée depuis le paquet de développement.",
         espace_apres=8)
 
     ligne(document, "Déroulé retenu :", gras=True, espace_apres=6)
@@ -651,6 +661,13 @@ def corps(document, ligne, titre, puces, tableau, capture):
         "promotionnel, frais de livraison offerts au-delà de 100 000 FCFA.",
         "Compte : activation de la vente, sans création d'un second compte.",
     ], numerotees=True)
+
+    capture(document, "v2-05-commencez.png",
+            "Entrée dans l'application : aucun document n'est demandé pour "
+            "vendre", largeur=Cm(6.6))
+    capture(document, "v2-12-negociation.png",
+            "Négociation : l'offre de l'acheteur, portée par un message typé",
+            largeur=Cm(6.6))
 
     ligne(document,
         "Une précaution a été prise pour la démonstration elle-même : "
