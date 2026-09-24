@@ -24,16 +24,16 @@ from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
 PROJET = Path(__file__).resolve().parent.parent
-SORTIE = PROJET / "documents" / "Rapport_Projet_Mekano_Afrika_GNAZOU_BERNARD.docx"
+SORTIE = PROJET / "Rapport_Projet_Mekano_Afrika_GNAZOU_BERNARD.docx"
 LOGO = PROJET / "documents" / "logo_dclic.png"
 CAPTURES = PROJET / "captures"
 
 AUTEUR = "GNAZOU GOUDI BERNARD"
 NIVEAU = "DEVELOPPEMENT MOBILE NIVEAU APPROFONDI"
 SESSION = "SESSION AOUT-2026"
-ACTIVITE = "ACTIVITE : PROJET FINAL"
+ACTIVITE = "ACTIVITE : PROJET FINAL - DOCUMENTATION, TESTS, PRESENTATION, DEPOT"
 TITRE = "CONCEPTION ET RÉALISATION\nDE L'APPLICATION MOBILE\nMEKANO AFRIKA"
-DATE = "19/09/2026"
+DATE = "24/09/2026"
 
 # Couleurs du gabarit, relevées sur la couverture d'origine.
 VIOLET = "7030A0"

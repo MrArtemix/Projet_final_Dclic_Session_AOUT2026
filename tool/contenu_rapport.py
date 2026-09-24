@@ -33,6 +33,13 @@ def objectifs(document, ligne, titre, puces, capture):
         "Exploiter la géolocalisation pour classer une offre par proximité.",
         "Tenir les contraintes d'un terrain réel : téléphones d'entrée de "
         "gamme, réseau instable, lecture en plein soleil.",
+        "Documenter le projet pour qu'un lecteur extérieur puisse le "
+        "reprendre : rôle de chaque couche, décisions techniques et leurs "
+        "raisons, marche à suivre pour l'installer.",
+        "Vérifier le résultat par une campagne de tests automatisés, et "
+        "préparer la démonstration de l'application sur appareil réel.",
+        "Placer le projet sous gestion de version et constituer l'espace de "
+        "dépôt attendu à la remise.",
     ])
 
     ligne(document, espace_apres=10)
@@ -312,12 +319,13 @@ def corps(document, ligne, titre, puces, tableau, capture):
             "Espace compte, avec l'activation de la vente", largeur=Cm(6.6))
 
     # ------------------------------------------------------------------
-    titre(document, "6. Règles de gestion et tests")
+    titre(document, "6. Règles de gestion et campagne de tests")
 
     ligne(document,
         "Les règles qui touchent au prix sont celles que l'utilisateur "
         "remarque immédiatement : elles sont donc couvertes par des tests "
-        "automatisés. Cinquante-cinq tests sont exécutés, tous au vert.",
+        "automatisés. La campagne compte soixante-seize tests, répartis en "
+        "sept fichiers, tous au vert à la dernière exécution.",
         espace_apres=8)
 
     tableau(document,
@@ -350,6 +358,60 @@ def corps(document, ligne, titre, puces, tableau, capture):
              "Reprise depuis le dépôt, affichage immédiat avant écriture, "
              "retrait au second appui"],
         ])
+
+    titre(document, "6.1 L'organisation de la campagne", niveau=3)
+
+    ligne(document,
+        "Les tests sont rangés par nature plutôt que par écran : une règle de "
+        "prix ne se vérifie pas comme une mise en page. La commande "
+        "« flutter test » exécute l'ensemble en sept secondes, ce qui permet "
+        "de la lancer après chaque modification plutôt qu'à la veille de la "
+        "remise.",
+        espace_apres=8)
+
+    tableau(document,
+        ["Fichier", "Nature", "Ce qu'il vérifie"],
+        [
+            ["regles_metier_test.dart", "Unitaire",
+             "Tarif de gros, livraison, codes promotionnels, réduction "
+             "affichée, expiration d'une offre"],
+            ["panier_test.dart", "Unitaire",
+             "Contenu du panier : cumul des quantités, retrait d'une ligne, "
+             "panier vidé"],
+            ["distance_test.dart", "Unitaire",
+             "Formule de Haversine et mise en forme des distances, sur des "
+             "trajets connus d'Abidjan"],
+            ["formats_test.dart", "Unitaire",
+             "Prix, notes et compteurs abrégés, dont l'espace insécable "
+             "avant la devise"],
+            ["depots_test.dart", "Intégration",
+             "Comportement des dépôts par doublure : base vide, base "
+             "injoignable, repli sur le jeu local"],
+            ["ressources_test.dart", "Ressources",
+             "Chaque image citée par le catalogue existe, est déclarée au "
+             "manifeste et tient dans un poids raisonnable"],
+            ["debordements_test.dart", "Interface",
+             "Les écrans tiennent sans débordement sur trois tailles, de "
+             "320 × 568 à 412 × 915"],
+        ])
+
+    ligne(document,
+        "Deux enseignements sont sortis de cette campagne. Le premier tient "
+        "aux ressources : déclarer un dossier dans « pubspec.yaml » ne couvre "
+        "pas ses sous-dossiers, et l'oubli ne produit aucune erreur à la "
+        "compilation, l'image restant simplement vide à l'exécution. Le test "
+        "des ressources a relevé plusieurs images dans ce cas, qu'aucune "
+        "relecture du code n'aurait signalées.",
+        espace_apres=8)
+
+    ligne(document,
+        "Le second tient aux dépôts. Un contrôleur ne va jamais chercher sa "
+        "source de données, il la reçoit à la construction : le test lui "
+        "confie donc un dépôt de remplacement qui simule une base vide ou "
+        "muette, sans qu'une seule ligne de sa logique ait à changer. C'est "
+        "l'architecture décrite au chapitre 2 qui rend ces tests possibles, "
+        "et c'est la meilleure justification que j'en aie trouvée.",
+        espace_apres=10)
 
     # ------------------------------------------------------------------
     titre(document, "7. Difficultés rencontrées")
@@ -434,7 +496,174 @@ def corps(document, ligne, titre, puces, tableau, capture):
         espace_apres=10)
 
     # ------------------------------------------------------------------
-    titre(document, "9. Conclusion")
+    titre(document, "9. La documentation du projet")
+
+    ligne(document,
+        "Un projet qu'on est seul à comprendre est un projet perdu dès qu'on "
+        "s'en éloigne quelques semaines. J'ai donc traité la documentation "
+        "comme une partie du travail, et non comme une formalité de fin de "
+        "parcours. Elle tient sur trois supports, qui ne s'adressent pas au "
+        "même lecteur.",
+        espace_apres=10)
+
+    titre(document, "9.1 Le fichier README", niveau=3)
+    ligne(document,
+        "C'est la porte d'entrée du dépôt. Il ne récite pas la liste des "
+        "écrans : il explique d'abord le problème auquel l'application "
+        "répond, puis les trois contraintes qui ont commandé presque toutes "
+        "les décisions techniques, le statut informel qui ne doit rien "
+        "bloquer, la proximité comme moteur de découverte, et le réseau "
+        "instable.",
+        espace_apres=8)
+
+    ligne(document, "Il se lit en neuf parties :", gras=True, espace_apres=6)
+    puces(document, [
+        ("Le problème", ", le commerce informel du matériel informatique à "
+         "Abidjan et ce que les places de marché existantes supposent à tort."),
+        ("Les fonctions", ", décrites avec leurs valeurs réelles : seuils de "
+         "livraison, tri par proximité, double tarif."),
+        ("Les décisions techniques", ", chacune avec sa raison, y compris "
+         "celles qui s'écartent du dossier de conception."),
+        ("L'organisation du code", ", l'arborescence de « lib/ » commentée "
+         "couche par couche."),
+        ("Les tests", ", le tableau des sept fichiers et ce que chacun "
+         "couvre."),
+        ("L'outillage", ", les cinq scripts Python de « tool/ » et leur "
+         "rôle."),
+        ("L'installation", ", les deux commandes qui suffisent à lancer "
+         "l'application, et la marche à suivre pour la brancher sur "
+         "Firebase."),
+        ("Les limites connues", ", énoncées sans les atténuer : codes "
+         "promotionnels vérifiés sur l'appareil, livraison forfaitaire, "
+         "paiement non implémenté, règles de sécurité encore en mode test."),
+        ("Les crédits", ", licences des polices et du fond cartographique."),
+    ])
+
+    ligne(document,
+        "La partie qui m'a demandé le plus de réflexion est celle des limites "
+        "connues. La tentation est de n'écrire que ce qui fonctionne ; mais "
+        "un lecteur qui découvre seul qu'un code promotionnel se contourne "
+        "depuis l'appareil perd confiance dans tout le reste du document. "
+        "Énoncer la limite, avec la raison et la suite prévue, vaut mieux que "
+        "la laisser trouver.",
+        espace_apres=10)
+
+    titre(document, "9.2 La documentation dans le code", niveau=3)
+    ligne(document,
+        "Les commentaires du projet ne redisent pas ce que le code fait déjà "
+        "lire : ils expliquent pourquoi il fait ainsi. Chaque contrôleur "
+        "porte en tête la règle du cahier des charges dont il a la charge. Le "
+        "contrôleur de localisation rappelle qu'un refus de géolocalisation "
+        "n'interrompt jamais le parcours ; celui du panier, que le prix d'une "
+        "ligne est recalculé par le modèle et non par lui ; le service "
+        "Firebase, pourquoi son initialisation est volontairement tolérante.",
+        espace_apres=8)
+
+    ligne(document,
+        "Les écarts assumés sont documentés à l'endroit où ils s'appliquent, "
+        "et non renvoyés à une annexe. Le passage de Socket.io aux flux de "
+        "Firestore est expliqué en tête du contrôleur de conversation, là où "
+        "un lecteur se posera la question.",
+        espace_apres=10)
+
+    titre(document, "9.3 Le rapport, engendré par script", niveau=3)
+    ligne(document,
+        "Ce rapport n'est pas saisi à la main dans un traitement de texte : "
+        "il est produit par « tool/rapport_docx.py », qui reconstruit la "
+        "couverture du gabarit D-CLIC et la met en forme, tandis que "
+        "« tool/contenu_rapport.py » n'en porte que le texte. La séparation a "
+        "une raison pratique : une correction de fond se relit sans risquer "
+        "de déranger une bordure, et le document se régénère à l'identique "
+        "autant de fois qu'il le faut.",
+        espace_apres=10)
+
+    # ------------------------------------------------------------------
+    titre(document, "10. L'espace de dépôt")
+
+    ligne(document,
+        "Le projet est placé sous gestion de version avec Git, sur une "
+        "branche « main ». Le dépôt réunit le code, les ressources, les "
+        "captures, l'outillage et ce rapport, soit deux cent soixante-seize "
+        "fichiers au premier enregistrement.",
+        espace_apres=8)
+
+    ligne(document, "Ce que le dépôt ne contient pas, et pourquoi :",
+          gras=True, espace_apres=6)
+    tableau(document,
+        ["Écarté du dépôt", "Raison"],
+        [
+            ["build/, .dart_tool/",
+             "Produits de compilation : reconstruits par « flutter pub get » "
+             "et « flutter build », ils pèseraient des centaines de "
+             "mégaoctets pour rien"],
+            ["__pycache__/, *.pyc",
+             "Cache de l'interpréteur Python, propre à la machine"],
+            [".idea/, *.iml",
+             "Réglages de l'environnement de développement, personnels"],
+            ["~$*.docx, .DS_Store",
+             "Fichiers temporaires de Word et du système de fichiers"],
+        ])
+
+    ligne(document,
+        "Un point mérite d'être signalé plutôt que passé sous silence : le "
+        "fichier "
+        "« google-services.json » est suivi par le dépôt. Il est nécessaire "
+        "pour rebrancher l'application sur Firebase et ne contient pas de "
+        "secret au sens strict, les clés qu'il porte étant destinées au "
+        "client. Mais la protection réelle repose alors entièrement sur les "
+        "règles de sécurité Firestore, aujourd'hui en mode test. Avant tout "
+        "usage réel, ce sont ces règles qu'il faut durcir, et non le fichier "
+        "qu'il faut cacher.",
+        espace_apres=8)
+
+    ligne(document,
+        "Le message du premier enregistrement décrit le projet plutôt que "
+        "l'action : architecture, sources de données, fonctions, système de "
+        "design, tests et outillage. C'est ce qu'un relecteur lira en premier "
+        "dans l'historique.",
+        espace_apres=10)
+
+    # ------------------------------------------------------------------
+    titre(document, "11. La présentation du projet")
+
+    ligne(document,
+        "La démonstration suit le parcours d'un acheteur, de l'ouverture de "
+        "l'application au panier, sur un appareil réel plutôt que sur un "
+        "émulateur : un téléphone Android sous la version 15, en 1080 × 2412. "
+        "Les captures de ce rapport en sont tirées.",
+        espace_apres=8)
+
+    ligne(document, "Déroulé retenu :", gras=True, espace_apres=6)
+    puces(document, [
+        "Écran d'ouverture et présentation, sur fond noir, où se posent la "
+        "marque et la promesse.",
+        "Création de compte ou connexion, formulaire volontairement court, "
+        "sans pièce justificative.",
+        "Autorisation de localisation, puis, si elle est refusée, choix "
+        "manuel de la commune : c'est le moment où se montre que le parcours "
+        "ne dépend pas du GPS.",
+        "Accueil ordonné par proximité, catégories, annonces et boutiques.",
+        "Fiche produit : galerie, tarif de détail et tarif de gros, ajout au "
+        "panier.",
+        "Négociation avec le vendeur : proposition de prix, contre-offre, "
+        "acceptation.",
+        "Panier : bascule au tarif de gros au franchissement du seuil, code "
+        "promotionnel, frais de livraison offerts au-delà de 100 000 FCFA.",
+        "Compte : activation de la vente, sans création d'un second compte.",
+    ], numerotees=True)
+
+    ligne(document,
+        "Une précaution a été prise pour la démonstration elle-même : "
+        "l'application démarre sur son jeu de données local dès que Firebase "
+        "n'est pas joignable. Une salle sans réseau, une configuration "
+        "absente, une coupure au mauvais moment ne peuvent donc pas "
+        "interrompre la présentation. Ce repli n'est pas un artifice de "
+        "soutenance, c'est le même mécanisme qui sert le mode dégradé exigé "
+        "par le cahier des charges.",
+        espace_apres=10)
+
+    # ------------------------------------------------------------------
+    titre(document, "12. Conclusion")
 
     ligne(document,
         "Ce projet m'a fait parcourir la chaîne complète du développement "
