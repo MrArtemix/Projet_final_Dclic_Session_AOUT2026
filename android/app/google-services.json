@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "176102732232",
+    "project_id": "mekano-afrika",
+    "storage_bucket": "mekano-afrika.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176102732232:android:02417d72dbabccf8d6d0fd",
+        "android_client_info": {
+          "package_name": "com.dclic.mekano_afrika"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkVlxMr28VTANEUayBT53WOg26bdFe3IM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
